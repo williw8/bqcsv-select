@@ -15,7 +15,7 @@ from csvdb import csvdb
 from actions import utils
 
 H_SPACER = 5
-V_SPACER = 3
+V_SPACER = 5
 
 class SelectDialog(wx.Dialog):
 
@@ -38,17 +38,16 @@ class SelectDialog(wx.Dialog):
   def initUI(self):
     vbox = wx.BoxSizer(wx.VERTICAL)
 
-    hbox = wx.BoxSizer(wx.HORIZONTAL)
-    x = wx.StaticText(self,wx.ID_ANY,label="Expression")
-    hbox.AddSpacer(H_SPACER)
-    hbox.Add(x)
-    hbox.AddSpacer(H_SPACER)
-    self.expression_ctrl = wx.TextCtrl(self,size=(250,wx.ID_ANY))
-    self.expression_ctrl.SetEditable(True)
-
-    vbox.Add(hbox);
     vbox.AddSpacer(V_SPACER)
 
+    hbox = wx.BoxSizer(wx.HORIZONTAL)
+    hbox.AddSpacer(H_SPACER)
+    self.expression_ctrl = wx.TextCtrl(self,size=(300,-1))
+    self.expression_ctrl.SetEditable(True)
+    hbox.Add(self.expression_ctrl)
+    vbox.Add(hbox);
+
+    vbox.AddSpacer(V_SPACER)
 
     hbox = wx.BoxSizer(wx.HORIZONTAL)
     self.ok_button = wx.Button(self,wx.ID_OK)
