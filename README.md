@@ -1,2 +1,2 @@
-# join
-A bqcsv action module that performs a join on two CSV files
+# select
+A bqcsv action module that allows selection of columns from a CSV file. 
