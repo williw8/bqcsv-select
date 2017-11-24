@@ -37,13 +37,11 @@ V_SPACER = 5
 class SelectDialog(wx.Dialog):
 
   def __init__(self,parent,table):
-    wx.Dialog.__init__(self,parent)
+    wx.Dialog.__init__(self,parent,-1,"Select",wx.DefaultPosition,wx.Size(640,-1),wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
     self.table = table
     self.expression = None
 
     self.initUI()
-    self.SetSize((320,240))
-    self.SetTitle("Select")
 
 
   def setPath(self,v):
@@ -53,34 +51,48 @@ class SelectDialog(wx.Dialog):
     self.path = v
 
   def initUI(self):
+
+    self.SetTitle("Select")
+
     vbox = wx.BoxSizer(wx.VERTICAL)
 
     vbox.AddSpacer(V_SPACER)
 
     hbox = wx.BoxSizer(wx.HORIZONTAL)
     hbox.AddSpacer(H_SPACER)
-    self.expression_ctrl = wx.TextCtrl(self,size=(300,-1))
-    self.expression_ctrl.SetEditable(True)
-    hbox.Add(self.expression_ctrl)
+    x = wx.StaticText(self,wx.ID_ANY)
+    x.SetLabel("Usage: select <column id(s)> where <other column id> = <value>")
+    hbox.Add(x,1,flag=wx.EXPAND)
+    hbox.AddSpacer(H_SPACER)
     vbox.Add(hbox);
 
     vbox.AddSpacer(V_SPACER)
 
     hbox = wx.BoxSizer(wx.HORIZONTAL)
-    self.ok_button = wx.Button(self,wx.ID_OK)
     hbox.AddSpacer(H_SPACER)
+    self.expression_ctrl = wx.TextCtrl(self,-1,size=(480,-1))
+    self.expression_ctrl.SetEditable(True)
+    hbox.Add(self.expression_ctrl,1,flag=wx.EXPAND)
+    hbox.AddSpacer(H_SPACER)
+    vbox.Add(hbox);
+
+    vbox.AddSpacer(V_SPACER)
+
+    hbox = wx.BoxSizer(wx.HORIZONTAL)
+    hbox.AddSpacer(H_SPACER)
+    self.ok_button = wx.Button(self,wx.ID_OK)
+    self.ok_button.Bind(wx.EVT_BUTTON,self.onOK)
     hbox.Add(self.ok_button)
     hbox.AddSpacer(H_SPACER)
     self.cancel_button = wx.Button(self,wx.ID_CANCEL)
-    hbox.AddSpacer(H_SPACER)
+    self.cancel_button.Bind(wx.EVT_BUTTON,self.onCancel)
     hbox.Add(self.cancel_button)
     hbox.AddSpacer(H_SPACER)
     vbox.Add(hbox)
 
-    self.ok_button.Bind(wx.EVT_BUTTON,self.onOK)
-    self.cancel_button.Bind(wx.EVT_BUTTON,self.onCancel)
+    vbox.AddSpacer(V_SPACER)
 
-    self.SetSizer(vbox)
+    self.SetSizerAndFit(vbox)
 
   def onOK(self,event):
     self.expression = self.expression_ctrl.GetValue()
